@@ -86,7 +86,9 @@ for f in "$TS_BIN_DIR"/*-"$ARCH"; do
 done
 
 [ -f "$TS_BIN_DIR/tailscaled" ] || {
-	gh_download "anasfanani/tailscale-android-cli" "tailscale_.*_${ARCH}\.tgz" || abort "error: Unable to download."
+	gh_download "watermeko/magisk-tailscaled" "tailscale_.*_${ARCH}\.tgz" ||
+		gh_download "anasfanani/tailscale-android-cli" "tailscale_.*_${ARCH}\.tgz" ||
+		abort "error: Unable to download."
 	tar -xzf "$TMPDIR/$FILENAME" -C $TS_BIN_DIR || abort "error: Unable extract archive."
 }
 
@@ -101,7 +103,7 @@ unzip -qqo "$ZIPFILE" -x 'META-INF/*' 'tailscale/*' -d "$MODPATH"
 mkdir -p "$TS_DIR" "$TS_SCRIPTS_DIR" "$SERVICE_DIR" "$MODPATH/system/bin/"
 unzip -qqjo "$ZIPFILE" 'tailscale/scripts/*' -d "$TS_SCRIPTS_DIR"
 unzip -qqjo "$ZIPFILE" 'tailscale/settings.sh' -d "$TS_DIR"
-ln -sf "$TS_BIN_DIR/tailscaled" "$TS_BIN_DIR/tailscale"
+[ -f "$TS_BIN_DIR/tailscale" ] || ln -sf "$TS_BIN_DIR/tailscaled" "$TS_BIN_DIR/tailscale"
 ln -sf "$TS_BIN_DIR/"* "$MODPATH/system/bin/"
 
 ln -sf "$TS_SCRIPTS_DIR/tailscaled.service" "$MODPATH/system/bin/"

@@ -1,3 +1,13 @@
+## v2.0.0.1-tailscale1.104.4
+
+- Upgrade bundled Tailscale from 1.90.6 to **1.104.4** (official upstream arm64 build)
+- Ship both `tailscaled` and `tailscale` CLI binaries (newer Tailscale requires a real CLI, a symlink to `tailscaled` no longer works)
+- Fix: `tailscaled` now started with explicit `--state`, `--statedir`, `--socket` (required by Tailscale >= 1.104; previously failed with "statedir is required" / "read-only file system" on socket bind)
+- Fix: default to `--tun=userspace-networking`
+- Fix: no longer overwrite a real `tailscale` binary with a symlink in `customize.sh`
+- Binaries are downloaded from this fork's releases first, upstream as fallback
+- Verified on KernelSU + Android 15 (Redmi Note 12 Turbo / marble): node comes online, Tailscale SSH toggle works
+
 ## v2.0.0.1
 
 - 429e1b0 build: fix version bump and add pre-release for build version
